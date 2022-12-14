@@ -107,6 +107,9 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Header Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="DataGame.cpp">
+      <Filter>Header Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Header Files\GameObject\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="DataGame.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
