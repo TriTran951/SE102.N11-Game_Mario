@@ -44,5 +44,7 @@ public:
 	virtual bool IsItem() { return 1; }
 	void SetModel(int model) { this->model = model; }
 	int GetModel() { return model; }
+
+
 };
 
