@@ -27,9 +27,10 @@ void CPlatform::RenderBoundingBox()
 
 	CGame::GetInstance()->Draw(xx - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
-
 void CPlatform::Render()
 {
+	if (!checkObjectInCamera(this)) return;
+
 	if (this->length <= 0) return;
 	float xx = x;
 	CSprites* s = CSprites::GetInstance();
@@ -44,7 +45,7 @@ void CPlatform::Render()
 	if (length > 1)
 		s->Get(this->spriteIdEnd)->Draw(xx, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
