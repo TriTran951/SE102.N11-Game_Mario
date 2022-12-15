@@ -45,6 +45,9 @@
     <Filter Include="Header Files\GameObject\Brick">
       <UniqueIdentifier>{0691f4af-cd78-4e6f-94da-aa138c77ff9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObject\Items">
+      <UniqueIdentifier>{0b285d84-b498-42b6-8294-d26cf4257e07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -95,9 +98,6 @@
     <ClCompile Include="Collision.cpp">
       <Filter>Header Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Header Files\GameObject\Coin</Filter>
-    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Header Files\GameObject\Portal</Filter>
     </ClCompile>
@@ -109,6 +109,12 @@
     </ClCompile>
     <ClCompile Include="DataGame.cpp">
       <Filter>Header Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MushRoom.cpp">
+      <Filter>Header Files\GameObject\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Header Files\GameObject\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +178,6 @@
     <ClInclude Include="Collision.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Header Files\GameObject\Coin</Filter>
-    </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Header Files\GameObject\Portal</Filter>
     </ClInclude>
@@ -183,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="DataGame.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MushRoom.h">
+      <Filter>Header Files\GameObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header Files\GameObject\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
