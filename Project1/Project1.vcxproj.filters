@@ -116,6 +116,12 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Header Files\GameObject\Items</Filter>
     </ClCompile>
+    <ClCompile Include="BrickColor.cpp">
+      <Filter>Header Files\GameObject\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickQuestion.cpp">
+      <Filter>Header Files\GameObject\Brick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -192,6 +198,12 @@
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>Header Files\GameObject\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickColor.h">
+      <Filter>Header Files\GameObject\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickQuestion.h">
+      <Filter>Header Files\GameObject\Brick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
