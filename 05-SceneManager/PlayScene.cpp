@@ -9,8 +9,10 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "MushRoom.h"
+#include "Leaf.h"
 #include "Platform.h"
 #include "GoombaFly.h"
+#include "FlowerFire.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -122,7 +124,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_GOOMBA_FLY: obj = new CGoombaFly(x, y); break;
 	case OBJECT_TYPE_MUSHROOM: obj = new CMushRoom(x, y); break;
-
+	case OBJECT_TYPE_LEAF: obj = new CLeaf(x, y); break;
+	case OBJECT_TYPE_FLOWERFIRE: obj = new CFlowerFire(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 

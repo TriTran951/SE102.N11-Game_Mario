@@ -1,11 +1,13 @@
 #include <algorithm>
 #include "debug.h"
 
+#include "Leaf.h"
 #include "Mario.h"
 #include "Game.h"
 #include "MushRoom.h"
 #include "Goomba.h"
 #include "Coin.h"
+#include "FlowerFire.h"
 #include "Portal.h"
 #include "Collision.h"
 
@@ -53,6 +55,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CMushRoom*>(e->obj))
 		OnCollisionWithMushRoom(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
+	else if (dynamic_cast<CFlowerFire*>(e->obj))
+		OnCollisionWithFlowerFire(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -98,7 +104,10 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	coin++;
 }
-
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e) {
+	e->obj->Delete();
+	SetLevel(MARIO_LEVEL_TAIL);
+}
 void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e) 
 {
 	e->obj->Delete();
@@ -107,6 +116,10 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 		SetLevel(MARIO_LEVEL_BIG);
 	}
 
+}
+void CMario::OnCollisionWithFlowerFire(LPCOLLISIONEVENT e) {
+	e->obj->Delete();
+	SetLevel(MARIO_LEVEL_FIRE);
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {

@@ -6,6 +6,8 @@ coin.txt
 goomba.txt
 cloud.txt
 mushroom.txt
+leaf.txt
+flowerfire.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -67,6 +69,10 @@ mushroom.txt
 50	300	110	316	140	2
 #MUSHROOM
 31	220	10
+#LEAF
+32	230	0
+#flower
+33	220	60
 
-2	180	10
+
 
