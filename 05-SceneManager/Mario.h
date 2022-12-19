@@ -12,12 +12,12 @@
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
 
-#define MARIO_JUMP_SPEED_Y		1.0f
-#define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_JUMP_SPEED_Y		0.3f
+#define MARIO_JUMP_RUN_SPEED_Y	0.3f
 
-#define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY			0.0006f
 
-#define MARIO_JUMP_DEFLECT_SPEED  0.5f
+#define MARIO_JUMP_DEFLECT_SPEED  0.2f
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -148,9 +148,9 @@
 #define MARIO_LEVEL_FIRE    3
 #define MARIO_LEVEL_TAIL	4
 
-#define MARIO_BIG_BBOX_WIDTH  14
+#define MARIO_BIG_BBOX_WIDTH  16
 #define MARIO_BIG_BBOX_HEIGHT 24
-#define MARIO_BIG_SITTING_BBOX_WIDTH  14
+#define MARIO_BIG_SITTING_BBOX_WIDTH  16
 #define MARIO_BIG_SITTING_BBOX_HEIGHT 16
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
@@ -181,7 +181,7 @@ class CMario : public CGameObject
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlowerFire(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrickQuestion(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithBlock(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -214,9 +214,10 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-
-
+	int GetCoin() { return this->coin; }
+	void SetCoin(int coin) { this->coin = coin; }
 	void SetLevel(int l);
+	void SetVy(float v) { vy = v; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
