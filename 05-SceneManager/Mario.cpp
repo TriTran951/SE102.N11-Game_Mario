@@ -4,6 +4,7 @@
 #include "Leaf.h"
 #include "Mario.h"
 #include "Game.h"
+#include "Koopa.h"
 #include "MushRoom.h"
 #include "Goomba.h"
 #include "Coin.h"
@@ -62,8 +63,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithFlowerFire(e);
 		else if (dynamic_cast<CBrickQuestion*>(e->obj))
 			OnCollisionWithBrickQuestion(e);
-		else if (dynamic_cast<CBrickQuestion*>(e->obj))
-			OnCollisionWithBrickQuestion(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnCollisionWithKoopa(e);
 		else if (dynamic_cast<CPlatform*>(e->obj))
 			OnCollisionWithPlatForm(e);
 
@@ -74,36 +75,65 @@ void CMario::OnCollisionWithPlatForm(LPCOLLISIONEVENT e) {
 	if (platform->IsBlocking()) { }
 	else {
 		if (e->ny < 0) {
-			if (level == MARIO_LEVEL_SMALL) {
-				//SetY(platform->GetY() - 15);
-				if (platform->GetY() - GetY() < (MARIO_SMALL_BBOX_HEIGHT+4))
-				{
-						SetY(platform->GetY() - MARIO_SMALL_BBOX_HEIGHT - 2);
-						vy = 0;
-						isOnPlatform = true;	
-				}
+			BlockIfNoBlock(platform);
+		}
+	}
+}
+
+void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e) {
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj); 
+
+	if (e->ny < 0) {
+		if (koopa->GetModel() != KOOPA_GREEN_WING) {
+			if ((koopa->GetState() == KOOPA_STATE_WALKING) or (koopa->GetState() == KOOPA_STATE_IS_KICKED))
+			{
+				koopa->SetState(KOOPA_STATE_DEFEND);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 			else {
-				if (!isSitting) {
-					if (platform->GetY() - GetY() < MARIO_BIG_BBOX_HEIGHT)
-					{
-						SetY(platform->GetY() - MARIO_BIG_BBOX_HEIGHT + 4);
-						vy = 0;
-						isOnPlatform = true;
-					}
+				koopa->SetState(KOOPA_STATE_IS_KICKED);
+			}
+		}
+		else
+		{
+			if (koopa->GetState() == KOOPA_STATE_JUMP) {
+				koopa->SetState(KOOPA_STATE_WALKING);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else if ((koopa->GetState() == KOOPA_STATE_WALKING) or (koopa->GetState() == KOOPA_STATE_IS_KICKED)) 
+			{
+				koopa->SetState(KOOPA_STATE_DEFEND);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else 
+			{
+				koopa->SetState(KOOPA_STATE_IS_KICKED);
+			}
+		}
+	}
+	else {
+		if (untouchable == 0)
+		{
+			if ((koopa->GetState() != KOOPA_STATE_ISDEAD) and (koopa->GetState() != KOOPA_STATE_WALKING) and (koopa->GetState() != KOOPA_STATE_IS_KICKED))
+			{
+				 koopa->SetState(KOOPA_STATE_IS_KICKED);
+			}
+			else {
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
 				}
-				else{
-					if (platform->GetY() - GetY() < MARIO_BIG_BBOX_HEIGHT/2 + 4)
-					{
-						SetY(platform->GetY() - MARIO_BIG_BBOX_HEIGHT/2 - 4 );
-						vy = 0;
-						isOnPlatform = true;
-					}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
 				}
 			}
 		}
 	}
 }
+
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
@@ -112,15 +142,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
-		if (goomba->GetState() == GOOMBA_STATE_FLY) {
-			goomba->SetState(GOOMBA_STATE_WALKING);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		}
-		else if (goomba->GetState() == GOOMBA_STATE_WALKING)
-		{
-			goomba->SetState(GOOMBA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		}
+		BlockIfNoBlock(goomba);
+		goomba->SetState(GOOMBA_STATE_IS_ATTACK);
+		vy -= MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else // hit by Goomba
 	{
@@ -190,12 +214,15 @@ void CMario::OnCollisionWithBrickQuestion(LPCOLLISIONEVENT e) {
 				CFlowerFire* flower = new CFlowerFire(x, y);
 				scene->AddObject(flower);
 			}
+			questionBrick->SetIsEmpty(true);
 		}
 		else if (questionBrick->GetModel() == QUESTION_BRICK_COIN) {
 			SetCoin(GetCoin() + 1);
 			CCoin* coin = new CCoin(x, y);
 			coin->SetState(COIN_SUMMON_STATE);
 			scene->AddObject(coin);
+			questionBrick->SetIsEmpty(true);
+
 		}
 	}
 
@@ -610,3 +637,32 @@ void CMario::SetLevel(int l)
 	level = l;
 }
 
+void CMario::BlockIfNoBlock(LPGAMEOBJECT gameobject) {
+	if (level == MARIO_LEVEL_SMALL) {
+		//SetY(platform->GetY() - 15);
+		if (gameobject->GetY() - GetY() < (MARIO_SMALL_BBOX_HEIGHT + 4))
+		{
+			SetY(gameobject->GetY() - MARIO_SMALL_BBOX_HEIGHT - 2);
+			vy = 0;
+			isOnPlatform = true;
+		}
+	}
+	else {
+		if (!isSitting) {
+			if (gameobject->GetY() - GetY() < MARIO_BIG_BBOX_HEIGHT)
+			{
+				SetY(gameobject->GetY() - MARIO_BIG_BBOX_HEIGHT + 4);
+				vy = 0;
+				isOnPlatform = true;
+			}
+		}
+		else {
+			if (gameobject->GetY() - GetY() < MARIO_BIG_BBOX_HEIGHT / 2 + 4)
+			{
+				SetY(gameobject->GetY() - MARIO_BIG_BBOX_HEIGHT / 2 - 4);
+				vy = 0;
+				isOnPlatform = true;
+			}
+		}
+	}
+}
