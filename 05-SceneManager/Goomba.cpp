@@ -85,21 +85,23 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isDeleted = true;
 		return;
 	}
-	if ((model == GOOMBA_WING) && (!isAttack)) {
-		if (GetTickCount64() - time_walking > TIME_WALKING && !isJump) {
-			SetState(GOOMBA_STATE_FLY);
-			if ((vx >= 0) && (mario->GetX() < GetX()))
-			{
-				vx = -GOOMBA_WALKING_SPEED;
+	if (!isUpside) {
+		if ((model == GOOMBA_WING) && (!isAttack)) {
+			if (GetTickCount64() - time_walking > TIME_WALKING && !isJump) {
+				SetState(GOOMBA_STATE_FLY);
+				if ((vx >= 0) && (mario->GetX() < GetX()))
+				{
+					vx = -GOOMBA_WALKING_SPEED;
+				}
+				else if ((vx <= 0) && (mario->GetX() > GetX()))
+				{
+					vx = GOOMBA_WALKING_SPEED;
+				}
+				time_walking = -1;
 			}
-			else if((vx <= 0) && (mario->GetX() > GetX()))
-			{
-				vx = GOOMBA_WALKING_SPEED;
+			else if (isJump) {
+				SetState(GOOMBA_STATE_WALKING);
 			}
-			time_walking = -1;
-		}
-		else if (isJump) {
-			SetState(GOOMBA_STATE_WALKING);
 		}
 	}
 	
@@ -237,8 +239,8 @@ void CGoomba::SetState(int state)
 			};
 			break;
 		case GOOMBA_STATE_DIE_UPSIDE:
-			vx = 0;
-			vy = -GOOMBA_JUMP_DEFLECT_SPEED;
+			ay = GOOMBA_GRAVITY / 4;
+			vy = -GOOMBA_JUMP_DEFLECT_SPEED/2;
 			isUpside = true;
 			die_start = GetTickCount64();
 
