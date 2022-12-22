@@ -6,7 +6,7 @@
 #define GOOMBA_GRAVITY 0.002f
 #define GOOMBA_FLY_ADJUST 0.2f
 #define GOOMBA_WALKING_SPEED 0.03f
-#define GOOMBA_JUMP_DEFLECT_SPEED 0.3f
+#define GOOMBA_JUMP_DEFLECT_SPEED 0.4f
 
 
 #define TIME_WALKING 3000
@@ -69,7 +69,7 @@ protected:
 	int GetAniGoompaBase();
 	int GetAniGoompaWing();
 public: 	
-
+	bool GetIsDead() { return isDead; }
 	CGoomba(float x, float y, int model);
 	void SetLevel(int l);
 	virtual void SetState(int state);

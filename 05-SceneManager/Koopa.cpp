@@ -40,8 +40,25 @@ CKoopa::CKoopa(float x, float y, int model) :CGameObject(x, y)
 }
 
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	if (!checkObjectInCamera(this)) return;
 	vy += ay * dt;
 	vx += ax * dt;
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	
+	if (mario->GetIsHolding() && isHeld) {
+		this->x = mario->GetX() + mario->GetNx() * (MARIO_BIG_BBOX_WIDTH-3);
+		this->y = mario->GetY();
+
+		vx = mario->GetVx();
+		vy = mario->GetVy();
+	}
+	else {
+		if (this->isHeld) {
+			ay = KOOPA_GRAVITY;
+			SetState(KOOPA_STATE_IS_KICKED);
+		}
+	}
+	
 	if (isDead && isUpside) {
 		if (GetTickCount64() - die_start > KOOPA_DIE_TIME)
 		{
@@ -60,6 +77,9 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 				defend_start = -1;
 			}
 		}
+	}
+	if (state == KOOPA_STATE_UPSIDE && !isOnPlatform) {
+		vx = -KOOPA_WALKING_SPEED;
 	}
 	
 	CGameObject::Update(dt, coObjects);
@@ -284,16 +304,14 @@ void CKoopa::SetState(int state) {
 		isKicked = false;
 		isWing = false;
 		isHeld = false;
-		isOnPlatform = true;
 		break;
 	case KOOPA_STATE_DEFEND:
-		isOnPlatform = true;
 		isDefend = true;
 		isComeback = false;
 		isKicked = false;
 		isUpside = false;
+		if (isOnPlatform) vx = 0;
 		defend_start = GetTickCount64();
-		vx = 0;
 		break;
 	case KOOPA_STATE_UPSIDE:
 		isUpside = true;
@@ -301,8 +319,8 @@ void CKoopa::SetState(int state) {
 		isComeback = false;
 		isKicked = false;
 		vy = -KOOPA_JUMP_SPEED;
+		if (isOnPlatform) vx = 0;
 		defend_start = GetTickCount64();
-		vx = 0;
 		break;
 	case KOOPA_STATE_IS_KICKED:
 		isOnPlatform = true;

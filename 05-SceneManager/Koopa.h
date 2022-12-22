@@ -1,17 +1,20 @@
 ﻿#include"GameObject.h"
 
 #define KOOPA_GRAVITY 0.001f
-#define KOOPA_WALKING_SPEED 0.02f
+#define KOOPA_WALKING_SPEED 0.04f
 #define KOOPA_IS_KICKED_SPEED 0.18f
-#define KOOPA_JUMP_DEATH 0.2f
+#define KOOPA_JUMP_DEATH 0.4f
 #define KOOPA_ADJUST_NOT_FALL 0.1f
 #define KOOPA_ADJUST_KICKED_NOT_FALL 0.05f
 
 #define KOOPA_GRAVITY_WING 0.0005f
 #define KOOPA_JUMP_SPEED 0.2f
-
+/*
 #define KOOPA_DEFEND_TIMEOUT 8000 // hết thời gian defend ( ra khỏi mai rùa và bắt đầu đi)
 #define KOOPA_COMBACK_START 6000 //thời gian tính từ lúc defend đến lúc có hiệu ứng comeback
+*/
+#define KOOPA_DEFEND_TIMEOUT 100000 // hết thời gian defend ( ra khỏi mai rùa và bắt đầu đi)
+#define KOOPA_COMBACK_START 600000 //thời gian tính từ lúc defend đến lúc có hiệu ứng comeback
 #define KOOPA_DIE_TIME 1000
 
 #define KOOPA_BBOX_WIDTH 16
@@ -100,6 +103,7 @@ public:
 	CKoopa(float x, float y,int model);
 	void SetLevel(int l);
 	virtual void SetState(int state);
+	void SetIsHeld(bool b) { isHeld = b; }
 
 
 };
