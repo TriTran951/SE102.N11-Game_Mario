@@ -3,12 +3,13 @@
 
 #include "Animation.h"
 #include "Animations.h"
+#include "Tail.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
-#define MARIO_RUNNING_SPEED		0.3f
+#define MARIO_RUNNING_SPEED		0.2f
 
-#define MARIO_ACCEL_WALK_X	0.0002f
+#define MARIO_ACCEL_WALK_X	0.001f
 #define MARIO_ACCEL_RUN_X	0.0003f
 
 #define MARIO_JUMP_SPEED_Y		0.28f
@@ -20,15 +21,14 @@
 #define MARIO_JUMP_DEFLECT_SPEED  0.2f
 
 #define MARIO_FLY_FALL 0.015f
-#define MARIO_FLYING 0.3f
+#define MARIO_FLYING 0.25f
 
-#define LEVEL_RUN_MAX 7
 #define TIME_FLY 3000
 #define TIME_TAIL_ATTACK 300
 #define TIME_SPEED 400
 #define TIME_KICK_ANIMATION 100
 #define TIME_SHOOT_ANI 100
-#define TIME_SHOOT_LIMIT 200
+#define TIME_SHOOT_LIMIT 1000
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -226,7 +226,7 @@
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
-#define MARIO_SMALL_BBOX_WIDTH  16
+#define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
 
@@ -260,18 +260,7 @@ class CMario : public CGameObject
 	bool isShoot;
 	bool isTailAttack;
 
-	void BlockIfNoBlock(LPGAMEOBJECT gameobject);
-	int GetAniIdBig();
-	int GetAniIdSmall();
-	int GetAniIdFire();
-	int GetAniIdTail();
 
-	virtual int IsPlayer() { return 1; }
-	int IsCollidable(){ return (state != MARIO_STATE_DIE); }
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable == 0); }
-
-	void OnNoCollision(DWORD dt);
-	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
@@ -284,40 +273,41 @@ class CMario : public CGameObject
 	void OnCollisionWithPlatForm(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireFromPlant(LPCOLLISIONEVENT e);
-
-	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void BlockIfNoBlock(LPGAMEOBJECT gameobject);
+	int GetAniIdBig();
+	int GetAniIdSmall();
+	int GetAniIdFire();
+	int GetAniIdTail();
 
 public:
 	CMario(float x, float y);
+	void SetLevelLower();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
-
-
-
-	//get
-	int GetLevel() { return level; }
-	int GetCoin() { return this->coin; }
-	bool GetIsTailAttack() { return isTailAttack; }
-	bool GetIsFlying() { return isFlying; }
-	bool GetIsHolding() { return isHolding; }
-	bool GetIsKicking() { return isKicking; }
-	bool GetIsOnPlatform() { return isOnPlatform; }
-	bool GetIsRunning() { return isRunning; }
-	bool GetIsShoot() { return isShoot; }
-	
-	//set
 	void SetState(int state);
-	void SetIsHolding(bool b) { isHolding = b; }
-	void SetIsKicking(bool b) { isKicking = b; }
-	void SetIsRunning(bool b) { isRunning = b; }
+	int GetLevel() { return level; }
+	int IsCollidable()
+	{ 
+		return (state != MARIO_STATE_DIE); 
+	}
+	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
+
+	void OnNoCollision(DWORD dt);
+	void OnCollisionWith(LPCOLLISIONEVENT e);
+	int GetCoin() { return this->coin; }
 	void SetCoin(int coin) { this->coin = coin; }
 	void SetLevel(int l);
 	void SetVy(float v) { vy = v; }
-
-	//void phat sinh
+	bool GetIsTailAttack() { return isTailAttack; }
+	bool GetIsFlying() { return isFlying; }
+	bool GetIsHolding() { return isHolding; }
+	void SetIsHolding(bool b) { isHolding = b; }
+	bool GetIsKicking() { return isKicking; }
+	void SetIsKicking(bool b) { isKicking = b; }
+	bool GetIsOnPlatform() { return isOnPlatform; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	virtual int IsPlayer() { return 1; }
 	void SetFly();
 	void SetMarioTailAttack();
-	void SetLevelLower();
-
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

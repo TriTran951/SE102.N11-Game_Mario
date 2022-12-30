@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
-#define BULLET_BBOX_WIDTH	8
-#define BULLET_BBOX_HEIGHT	8
+#define BULLET_BBOX_WIDTH	9
+#define BULLET_BBOX_HEIGHT	9
 
-#define BULLET_SPEED_X	0.2f
+#define BULLET_SPEED_X	0.15f
 #define BULLET_SPEED_Y	0.05f
 
 #define BULLET_GRAVITY 0.0006f;
@@ -18,7 +18,6 @@ protected:
 	float ax, ay;
 
 	virtual int IsCollidable() { return 1; }
-	virtual int IsBlocking() { return 0; }
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
@@ -31,8 +30,9 @@ public:
 		x += vx * dt;
 		y += vy * dt;
 	}
-
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual int IsBlocking() { return 0; }
+
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 };

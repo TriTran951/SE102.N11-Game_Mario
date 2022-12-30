@@ -12,24 +12,24 @@ CFireFromPlant::CFireFromPlant(float bx, float by, bool Up, bool Right)
 	if (Up)
 	{
 		y = by - PLANT_BBOX_HEIGHT/2;
-		vy = -BULLET_SPEED_Y_PLANT;
+		vy = -BULLET_SPEED_Y;
 	}
 	else
 	{
 		y = by + PLANT_BBOX_HEIGHT/2;
-		vy = BULLET_SPEED_Y_PLANT;
+		vy = BULLET_SPEED_Y;
 	}
 
 
 	if (Right)
 	{
 		x = bx + PLANT_BBOX_WIDTH;
-		vx = BULLET_SPEED_X_PLANT;
+		vx = BULLET_SPEED_X;
 	}
 	else
 	{
 		x = bx - PLANT_BBOX_WIDTH;
-		vx = -BULLET_SPEED_X_PLANT;
+		vx = -BULLET_SPEED_X;
 	}
 	start_deleted = GetTickCount64();
 }
@@ -57,8 +57,8 @@ void CFireFromPlant::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + BULLET_BBOX_WIDTH_PLANT;
-	b = y + BULLET_BBOX_HEIGHT_PLANT;
+	r = x + BULLET_BBOX_WIDTH;
+	b = y + BULLET_BBOX_HEIGHT;
 }
 
 void CFireFromPlant::OnCollisionWith(LPCOLLISIONEVENT e) {
