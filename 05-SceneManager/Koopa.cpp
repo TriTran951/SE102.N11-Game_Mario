@@ -45,7 +45,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vy += ay * dt;
 	vx += ax * dt;
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	
+
 	if (mario->GetIsHolding() && isHeld) {
 		this->x = mario->GetX() + mario->GetNx() * (MARIO_BIG_BBOX_WIDTH-3);
 		this->y = mario->GetY();
@@ -326,8 +326,12 @@ void CKoopa::SetState(int state) {
 		isUpside = true;
 		isDefend = false;
 		isComeback = false;
+		if (isWing) {
+			isWing = false;
+			ay = KOOPA_GRAVITY;
+		}
 		isKicked = false;
-		vy = -KOOPA_JUMP_SPEED;
+		vy = -KOOPA_JUMP_IS_ATTACKED;
 		if (isOnPlatform) vx = 0;
 		defend_start = GetTickCount64();
 		break;

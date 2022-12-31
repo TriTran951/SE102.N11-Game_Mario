@@ -10,6 +10,7 @@
 
 #define KOOPA_GRAVITY_WING 0.0005f
 #define KOOPA_JUMP_SPEED 0.2f
+#define KOOPA_JUMP_IS_ATTACKED 0.4f
 
 #define KOOPA_DEFEND_TIMEOUT 8000 // hết thời gian defend ( ra khỏi mai rùa và bắt đầu đi)
 #define KOOPA_COMBACK_START 6000 //thời gian tính từ lúc defend đến lúc có hiệu ứng comeback
@@ -72,6 +73,8 @@ protected:
 	virtual int IsBlocking() { return 0; }
 	virtual int IsEnemy() { return 1; }
 	virtual void OnNoCollision(DWORD dt);
+
+
 	int GetAniGreen();
 	int GetAniRed();
 	void OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e);
@@ -90,16 +93,19 @@ protected:
 	bool isComeback;
 	bool isDead;
 public:
+	CKoopa(float x, float y, int model);
 
 
-
+	//get
 	bool GetIsUpside() { return isUpside; }
 	bool GetIsDefend() { return isDefend; }
 	bool GetIsHeld() { return isHeld; }
 	bool GetIsKicked() { return isKicked; }
 	bool GetIsWing() { return isWing; }
 	bool GetIsComeBack() { return isComeback; }
-	CKoopa(float x, float y,int model);
+
+
+	//set
 	void SetLevel(int l);
 	virtual void SetState(int state);
 	void SetIsHeld(bool b) { isHeld = b; }

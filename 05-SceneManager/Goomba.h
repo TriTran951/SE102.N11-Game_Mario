@@ -9,7 +9,8 @@
 #define GOOMBA_JUMP_DEFLECT_SPEED 0.4f
 
 
-#define TIME_WALKING 3000
+#define TIME_WALKING 2000
+#define TIME_JUMP_SMALL 500
 
 #define GOOMBA_BBOX_WIDTH 16
 #define GOOMBA_BBOX_HEIGHT 16
@@ -47,12 +48,15 @@ protected:
 	float startX, startY;
 	ULONGLONG die_start;
 	ULONGLONG time_walking;
+	ULONGLONG time_jump_small;
 
 	bool walkingCheck;
+	int num_jump_small;
 	bool isJump;
 	bool isUpside;
 	bool isDead;
 	bool isAttack;
+	bool isOnPlatForm;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -61,6 +65,7 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual int IsEnemy() { return 1; }
+
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWithPlatForm(LPCOLLISIONEVENT e);
 
@@ -69,8 +74,13 @@ protected:
 	int GetAniGoompaBase();
 	int GetAniGoompaWing();
 public: 	
-	bool GetIsDead() { return isDead; }
 	CGoomba(float x, float y, int model);
+
+	//get
+	bool GetIsDead() { return isDead; }
+
+
+	//set
 	void SetLevel(int l);
 	virtual void SetState(int state);
 };
