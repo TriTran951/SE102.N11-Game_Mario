@@ -13,8 +13,7 @@ using namespace std;
 #include "KeyEventHandler.h"
 #include "Scene.h"
 #include<string>
-
-
+a
 #define SCREEN_WIDTH 272
 #define SCREEN_HEIGHT 256
 #define MAX_FRAME_RATE 100
@@ -119,6 +118,7 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+
 
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void Load(LPCWSTR gameFile);
