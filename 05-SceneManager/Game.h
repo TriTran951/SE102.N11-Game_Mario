@@ -13,7 +13,7 @@ using namespace std;
 #include "KeyEventHandler.h"
 #include "Scene.h"
 #include<string>
-a
+
 #define SCREEN_WIDTH 272
 #define SCREEN_HEIGHT 256
 #define MAX_FRAME_RATE 100
