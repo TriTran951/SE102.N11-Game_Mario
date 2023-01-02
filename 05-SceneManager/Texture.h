@@ -6,7 +6,7 @@
 //
 // Warpper class to simplify texture manipulation. See also CGame::LoadTexture
 //
-class CTexture 
+class CTexture
 {
 protected:
 	ID3D10Texture2D* _tex;
