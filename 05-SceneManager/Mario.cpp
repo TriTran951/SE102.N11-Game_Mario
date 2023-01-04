@@ -53,6 +53,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		vy += ay * dt;
 		vx += ax * dt;
 	}
+	if (y > POSITION_Y_DIE) {
+		SetState(MARIO_STATE_DIE);
+	}
+	if (coin > 99) {
+		Up++;
+		coin = 0;
+	}
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	// reset untouchable timer if untouchable time has passed
@@ -931,7 +938,7 @@ void CMario::SetState(int state)
 		}
 		break;
 	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE;
 		vx = 0;
 		ax = 0;
 		break;
