@@ -7,6 +7,7 @@
 #include "Goomba.h"
 #include "Koopa.h"
 #include "Pipe.h"
+#include "Effect.h"
 #include "Map.h"
 CBullet::CBullet(float bx, float by)
 {
@@ -74,15 +75,17 @@ void CBullet::OnCollisionWith(LPCOLLISIONEVENT e) {
 }
 
 void CBullet::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
-	isDeleted = true;
+
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	goomba->SetState(GOOMBA_STATE_DIE_UPSIDE);
+	isDeleted = true;
 }
 
 void CBullet::OnCollisionWithKoopa(LPCOLLISIONEVENT e) {
-	isDeleted = true;
+
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 	koopa->SetState(KOOPA_STATE_DEAD_UPSIDE);
+	isDeleted = true;
 }
 
 void CBullet::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e) {
