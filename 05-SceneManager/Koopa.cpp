@@ -211,20 +211,27 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e) {
 
 
 void CKoopa::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e) {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	CPlantEnemy* plant = dynamic_cast<CPlantEnemy*>(e->obj);
 	if (isKicked) {
+		mario->IncreaseScoreUpCollision(x, y);
 		plant->SetState(PLANT_STATE_DEATH);
 	}
 }
 
 
 void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e) {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 	if (isHeld) {
 		SetState(KOOPA_STATE_DEAD_UPSIDE);
 		koopa->SetState(KOOPA_STATE_DEAD_UPSIDE);
 	}
 	else if (isKicked) {
+		mario->IncreaseScoreUpCollision(x, y);
+
 		koopa->SetState(KOOPA_STATE_DEAD_UPSIDE);
 	}
 }
@@ -242,13 +249,9 @@ void CKoopa::OnCollisionWithBrickQuestion(LPCOLLISIONEVENT e) {
 						CMushRoom* mushroom = new CMushRoom(questionBrick->GetX(), questionBrick->GetY());
 						scene->AddObject(mushroom);
 					}
-					else if (mario->GetLevel() == MARIO_LEVEL_BIG) {
+					else if (mario->GetLevel() >= MARIO_LEVEL_BIG) {
 						CLeaf* leaf = new CLeaf(questionBrick->GetX(), questionBrick->GetY());
 						scene->AddObject(leaf);
-					}
-					else if (mario->GetLevel() == MARIO_LEVEL_TAIL || mario->GetLevel() == MARIO_LEVEL_FIRE) {
-						CFlowerFire* flower = new CFlowerFire(questionBrick->GetX(), questionBrick->GetY());
-						scene->AddObject(flower);
 					}
 				}
 				else {
@@ -264,12 +267,15 @@ void CKoopa::OnCollisionWithBrickQuestion(LPCOLLISIONEVENT e) {
 	}
 }
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
+
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (e->nx != 0) {
-		if (isKicked) {
-			goomba->SetState(GOOMBA_STATE_DIE_UPSIDE);
-		}
+	
+	if (isKicked) {
+		CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		mario->IncreaseScoreUpCollision(x, y);
+		goomba->SetState(GOOMBA_STATE_DIE_UPSIDE);
 	}
+		
 }
 void CKoopa::OnCollisionWithPlatform(LPCOLLISIONEVENT e) {
 	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
