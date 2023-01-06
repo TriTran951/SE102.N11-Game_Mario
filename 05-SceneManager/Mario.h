@@ -8,6 +8,7 @@
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.15f
 
+#define SPEED_MARIO_WHEN_BLOCK 0.007f
 #define MARIO_ACCEL_WALK_X	0.00014f
 #define MARIO_ACCEL_RUN_X	0.0002f
 
@@ -28,7 +29,7 @@
 
 #define LEVEL_RUN_MAX 7
 #define TIME_FLY 3000
-#define TIME_TAIL_ATTACK 600
+#define TIME_TAIL_ATTACK 400
 #define TIME_PREPARE_RUN 700
 #define TIME_SPEED 200
 #define TIME_KICK_ANIMATION 100
@@ -334,6 +335,7 @@ public:
 	int GetLevel() { return level; }
 	int GetCoin() { return this->coin; }
 	int GetUp() { return Up; }
+	
 	int GetClock() { return clock; }
 	int GetLevelRun() { return levelRun; }
 	bool GetIsTailAttack() { return isTailAttack; }

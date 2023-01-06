@@ -49,7 +49,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOutTitle(L"Up %d", Up);
 	//DebugOutTitle(L"TIME %d", clock);
 	//DebugOutTitle(L"POWERUP %d", levelRun);
-	DebugOutTitle(L"Poss: (%f,%f)", round(GetX()), round(GetY()));
+	DebugOutTitle(L"[POSITION] %f %f", round(GetX()), round(GetY()));
 	if (isChanging) {
 		vx = 0;
 		vy = 0;
@@ -100,7 +100,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		start_changing = 0;
 	}
 
-	if ((!isRunning) || (!vx) || (IsBrace()) || ((!isOnPlatform) && (isFlying) && (vy>0)))
+	//Xet cac truong hop ma power up xuong
+	//- Khong Running
+	//- Flying nhung vx  = 0
+	//- Brace
+	//- Luc bay xuong 
+	// - Bi chan boi block (nhung block trong luc flying se khong bi)
+	if ((!isRunning) || (!vx) || (IsBrace()) || ((!isOnPlatform) && (isFlying) && (vy>0)) || ((abs(vx) < SPEED_MARIO_WHEN_BLOCK)&&(!isFlying)))
 	{
 			if (GetTickCount64() - speed_stop > TIME_SPEED) {
 				if (levelRun > 0) levelRun--;
@@ -148,7 +154,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 
-	//DebugOut(L"[POSITION] %f %f\n", x, y);
+	
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -164,7 +170,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		if (e->ny != 0 && e->obj->IsBlocking())
 		{
 			vy = 0;
-			if (e->ny < 0) isOnPlatform = true;
+			if (e->ny < 0) {
+				isOnPlatform = true; 
+			}
 		}
 		else if ((e->nx != 0) && (e->obj->IsBlocking()))
 		{
@@ -208,9 +216,12 @@ void CMario::OnCollisionWithPlantEnemy(LPCOLLISIONEVENT e) {
 	if (untouchable) return;
 	
 	CPlantEnemy* plant = dynamic_cast<CPlantEnemy*>(e->obj);
-	AddScore(plant->GetX(), plant->GetY(), 100);
-	score += 100;
-	if (isTailAttack) { plant->SetIsDeleted(true); }
+	
+	if (isTailAttack) { 
+		AddScore(plant->GetX(), plant->GetY(), 100);
+		score += 100;
+		plant->SetIsDeleted(true); 
+	}
 	else SetLevelLower();
 }
 
@@ -371,34 +382,36 @@ void CMario::OnCollisionWithBrickQuestion(LPCOLLISIONEVENT e) {
 	isEmpty = questionBrick->GetIsEmpty();
 	if(e->ny < 0) BlockIfNoBlock(questionBrick);
 	else if (((e->ny > 0) || (isTailAttack && (e->nx!=0))) && !isUnbox && !isEmpty ) {
-		float x, y, minY;
-		x = questionBrick->GetX();
-		y = questionBrick->GetY();
+		float xTemp, yTemp, minY;
+		xTemp = questionBrick->GetX();
+		yTemp = questionBrick->GetY();
 		minY = questionBrick->GetMinY();
 
 		questionBrick->SetState(QUESTION_BRICK_STATE_UP);
 
 		if (questionBrick->GetModel() == QUESTION_BRICK_ITEM) {
 			if (GetLevel() == MARIO_LEVEL_SMALL) {
-				CMushRoom* mushroom = new CMushRoom(x, y);
+				CMushRoom* mushroom = new CMushRoom(xTemp, yTemp);
 				scene->AddObject(mushroom);
 			}
 			else if (GetLevel() >= MARIO_LEVEL_BIG) {
-				CLeaf* leaf = new CLeaf(x, y);
+				CLeaf* leaf = new CLeaf(xTemp, yTemp);
 				scene->AddObject(leaf);
 			}
 			questionBrick->SetIsEmpty(true);
 		}
 		else if (questionBrick->GetModel() == QUESTION_BRICK_COIN) {
 			SetCoin(GetCoin() + 1);
-			CCoin* coin = new CCoin(x, y);
+			CCoin* coin = new CCoin(xTemp, yTemp);
 			coin->SetState(COIN_SUMMON_STATE);
-			scene->AddObject(coin);
 			questionBrick->SetIsEmpty(true);
+			scene->AddObject(coin);
 		}
 		else {
-			CMushRoom* mushroom = new CMushRoom(x, y, MUSHROOM_GREEN);
+			CMushRoom* mushroom = new CMushRoom(xTemp, yTemp, MUSHROOM_GREEN);
 			scene->AddObject(mushroom);
+			questionBrick->SetIsEmpty(true);
+
 		}
 	}
 
@@ -414,6 +427,7 @@ void CMario::OnCollisionWithFlowerFire(LPCOLLISIONEVENT e) {
 		AddScore(x, y, 1000);
 	}
 	e->obj->Delete();
+
 	if(level==MARIO_LEVEL_FIRE){}
 	else if (level != MARIO_LEVEL_SMALL) {
 		AddChangeAnimation();
@@ -980,7 +994,8 @@ void CMario::SetState(int state)
 		}
 		break;
 	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE;
+		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE/2;
+		ay = MARIO_GRAVITY / 3;
 		vx = 0;
 		ax = 0;
 		break;
