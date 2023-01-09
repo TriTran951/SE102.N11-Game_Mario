@@ -18,7 +18,6 @@
 #include "Portal.h"
 #include "PlayScene.h"
 #include "Collision.h"
-#include<math.h>
 
 CMario::CMario(float x, float y) : CGameObject(x, y) {
 	isShoot = false;
@@ -49,7 +48,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOutTitle(L"Up %d", Up);
 	//DebugOutTitle(L"TIME %d", clock);
 	//DebugOutTitle(L"POWERUP %d", levelRun);
-	DebugOutTitle(L"[POSITION] %f %f", round(GetX()), round(GetY()));
+	DebugOutTitle(L"[POSITION] %f %f", x, y);
 	if (isChanging) {
 		vx = 0;
 		vy = 0;
@@ -106,6 +105,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//- Brace
 	//- Luc bay xuong 
 	// - Bi chan boi block (nhung block trong luc flying se khong bi)
+	//=> Cac truong hop con lai se tang power up
 	if ((!isRunning) || (!vx) || (IsBrace()) || ((!isOnPlatform) && (isFlying) && (vy>0)) || ((abs(vx) < SPEED_MARIO_WHEN_BLOCK)&&(!isFlying)))
 	{
 			if (GetTickCount64() - speed_stop > TIME_SPEED) {
@@ -996,6 +996,7 @@ void CMario::SetState(int state)
 	case MARIO_STATE_DIE:
 		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE/2;
 		ay = MARIO_GRAVITY / 3;
+		untouchable = false;
 		vx = 0;
 		ax = 0;
 		break;
@@ -1017,20 +1018,10 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
 		else {
-			if (level == MARIO_LEVEL_TAIL && isTailAttack) {
-				{
-					left = x - MARIO_BIG_BBOX_WIDTH/2;
-					top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-					right = left + MARIO_BIG_BBOX_WIDTH+8;
-					bottom = top + MARIO_BIG_BBOX_HEIGHT;
-				}
-			}
-			else {
 				left = x - MARIO_BIG_BBOX_WIDTH / 2;
 				top = y - MARIO_BIG_BBOX_HEIGHT / 2;
 				right = left + MARIO_BIG_BBOX_WIDTH;
 				bottom = top + MARIO_BIG_BBOX_HEIGHT;
-			}
 		}
 
 	}
