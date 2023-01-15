@@ -163,6 +163,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	else {
+		isUpped = false;
+		isDowned = false;
 		ay = MARIO_GRAVITY; 
 	}
 	//Khong the bay voi dieu kien inOnPlatForm
@@ -1106,7 +1108,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_SPEED_USE_PIPE;
 		break;
 	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE/2;
+		vy = -MARIO_JUMP_DEFLECT_SPEED_DIE;
 		ay = MARIO_GRAVITY / 3;
 		untouchable = false;
 		vx = 0;
