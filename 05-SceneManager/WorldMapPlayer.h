@@ -1,7 +1,7 @@
 
 #include "GameObject.h"
-#define SPEED_MARIO 0.1f
-
+#include "Grass.h"
+#define SPEED_MARIO 0.05f
 #define MARIO_WORLD_MAP_BBOX_WIDTH 8
 #define MARIO_WORLD_MAP_BBOX_HEIGHT 8
 
@@ -18,7 +18,13 @@
 #pragma once
 class CWorldMapPlayer : public CGameObject
 {
-	bool isCanUseKey = true;
+	int sceneChange = 0;
+	bool isCanGoWorld = false;
+	float startX, startY;
+	bool isGoingNodeX = false;
+	bool isGoingNodeY = false;
+
+	void OnCollisionWithDoor(LPCOLLISIONEVENT e);
 public:
 	CWorldMapPlayer(float x, float y) : CGameObject(x, y) {}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -30,4 +36,9 @@ public:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	virtual void SetState(int state);
+
+	
+	int CanActive() { return !vx && !vy; }
+	void Go1NodeX(LPGAMEOBJECT gameobject);
+	void Go1NodeY(LPGAMEOBJECT gameobject);
 };
