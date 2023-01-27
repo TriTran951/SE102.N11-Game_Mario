@@ -95,7 +95,7 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line) {
 	float y = (float)atof(tokens[2].c_str());
 
 	CGameObject* obj = NULL;
-
+	CDataGame* data = CGame::GetInstance()->GetDataGame();
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO_WORLDMAP:
@@ -104,6 +104,8 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line) {
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
+		x = data->GetPositionXWorldMap();
+		y = data->GetPositionYWorldMap();
 		obj = new CWorldMapPlayer(x, y);
 		player = (CWorldMapPlayer*)obj;
 
@@ -152,6 +154,7 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line) {
 	}
 	obj->SetPosition(x, y);
 	objects.push_back(obj);
+	
 }
 void CWorldMapScene::_ParseSection_TILEMAP_DATA(string line) {
 	int ID, rowMap, columnMap, columnTile, rowTile, totalTiles, startX, startY;
@@ -280,6 +283,8 @@ void CWorldMapScene::Render() {
 	current_map->Render();
 	for (unsigned int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	hud = new CHUDWorldMap(POSITION_X_HUD_WORLD_MAP, POSITION_Y_HUD_WORLD_MAP);
+	hud->Render();
 }
 void CWorldMapScene::Unload() {
 	for (unsigned int i = 0; i < objects.size(); i++)

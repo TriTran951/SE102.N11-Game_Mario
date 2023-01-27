@@ -180,6 +180,18 @@
     <ClCompile Include="Card.cpp">
       <Filter>Header Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="DataGame.cpp">
+      <Filter>Header Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDWorldMap.cpp">
+      <Filter>Header Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakBrick.cpp">
+      <Filter>Header Files\Object\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Header Files\Object\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -310,6 +322,18 @@
     </ClInclude>
     <ClInclude Include="Card.h">
       <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DataGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDWorldMap.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakBrick.h">
+      <Filter>Header Files\Object\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Object\Items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
