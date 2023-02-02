@@ -5,17 +5,27 @@
 #include "Game.h"
 #include "debug.h"
 void CWorldMapPlayer::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	//DebugOutTitle(L"[debug] %d",testDebug);
 	CDataGame* data = CGame::GetInstance()->GetDataGame();
+	//Cho game over
 	if (data->GetIsContinue()) {
 		data->ResetFullData();
 		CGame::GetInstance()->InitiateSwitchScene(ID_SCENE_WORLD_MAP_RESET);
 	}
-	else if (data->GetIsEnd()) {
+	if (data->GetIsEnd()) {
 		data->ResetFullData();
 		CGame::GetInstance()->InitiateSwitchScene(ID_SCENE_INTRO);
-
 	}
+	//Tat display HUD
+	if (data->GetIsDisplayHUD()) {
+		if (GetTickCount64() - start_stop_hud_sub > TIME_DISPLAY_HUD_SUB) {
+			data->SetIsDisplayHUD(false);
+			start_stop_hud_sub = 0;
+		}
+	}
+	//Neu dang di => khong the chuyen scene
 	if (!CanActive()) isCanGoWorld = false;
+	//Chuyen scene
 	if (sceneChange  && isCanGoWorld) {
 		SaveData();
 		CGame::GetInstance()->InitiateSwitchScene(sceneChange);
