@@ -27,7 +27,7 @@
 #define MARIO_JUMP_DEFLECT_SPEED_DIE  0.18f
 
 #define MARIO_FLY_FALL 0.0f
-#define MARIO_FLYING 0.27f
+#define MARIO_FLYING 0.25f
 
 
 #define SCORE_MAX 9999999
