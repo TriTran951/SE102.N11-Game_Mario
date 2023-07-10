@@ -64,6 +64,9 @@
     <Filter Include="Header Files\Intro\ObjectIntro">
       <UniqueIdentifier>{25d5a73b-b55c-4341-bf9f-efa918e92c36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Object\Creator">
+      <UniqueIdentifier>{8bf10abc-b8a7-4303-916b-5b2435dea50e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -218,6 +221,12 @@
     </ClCompile>
     <ClCompile Include="FontIntro.cpp">
       <Filter>Header Files\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="GoombaCreator.h">
+      <Filter>Header Files\Object\Creator</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantCreator.h">
+      <Filter>Header Files\Object\Creator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +391,12 @@
     </ClInclude>
     <ClInclude Include="FontIntro.h">
       <Filter>Header Files\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCreator.h">
+      <Filter>Header Files\Object\Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="KoopaCreator.h">
+      <Filter>Header Files\Object\Creator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

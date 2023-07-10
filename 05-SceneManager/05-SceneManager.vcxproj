@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -159,6 +159,7 @@
     <ClCompile Include="DataGame.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="FontIntro.cpp" />
+    <ClCompile Include="GoombaCreator.h" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Hammer.cpp" />
     <ClCompile Include="HUDWorldMap.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="IntroKey.cpp" />
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="OtherObject.cpp" />
+    <ClCompile Include="PlantCreator.h" />
     <ClCompile Include="PlatformIntro.cpp" />
     <ClCompile Include="WorldMapKeyEvent.cpp" />
     <ClCompile Include="WorldMapScene.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="EnemyCreator.h" />
     <ClInclude Include="DataGame.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="FontIntro.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="IntroBackGround.h" />
     <ClInclude Include="IntroKey.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="KoopaCreator.h" />
     <ClInclude Include="OtherObject.h" />
     <ClInclude Include="PlatformIntro.h" />
     <ClInclude Include="WorldMapKeyEvent.h" />

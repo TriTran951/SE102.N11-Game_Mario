@@ -1,4 +1,5 @@
-﻿#include"GameObject.h"
+﻿#pragma once
+#include"GameObject.h"
 
 #define KOOPA_GRAVITY 0.001f
 #define KOOPA_WALKING_SPEED 0.04f
